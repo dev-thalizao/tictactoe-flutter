@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_app/board/board.dart';
+import 'package:tic_tac_toe_app/presenter/game_presenter.dart';
+import 'package:tic_tac_toe_app/presenter/game_view_model.dart';
 import 'package:tic_tac_toe_app/tic_tac_toe/tic_tac_toe_game.dart';
 
 void main() {
@@ -31,6 +33,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late TicTacToeGame game;
+  GameViewModel get viewModel => GamePresenter.map(game);
 
   @override
   void initState() {
@@ -64,60 +67,42 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              turnStatus(),
+              viewModel.currentTurnStatus,
               style: Theme.of(context)
                   .textTheme
                   .headline4!
-                  .copyWith(color: turnStatusColor()),
+                  .copyWith(color: viewModel.currentTurnColor),
             ),
             const SizedBox(height: 8),
             SizedBox(
               width: boardWidth,
               height: boardWidth,
               child: GridView.count(
-                crossAxisCount: 9 ~/ 3,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: viewModel.crossAxisCount,
                 padding: const EdgeInsets.all(16.0),
                 mainAxisSpacing: 8.0,
                 crossAxisSpacing: 8.0,
-                children: List.generate(
-                  9,
-                  (index) {
-                    int row = index ~/ 3;
-                    int col = index % 3;
-                    final cell = game.board.matrix[row][col];
-
-                    return InkWell(
-                      onTap: () {
-                        setState(() {
-                          game.mark(BoardIndex(row: row, collumn: col));
-                        });
-                      },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(16.0),
-                        ),
-                        child: Center(
-                          child: Text(
-                            cell.value ?? "",
-                            style: TextStyle(
-                              color:
-                                  cell.value == "X" ? Colors.blue : Colors.pink,
-                              fontSize: 64.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                children: viewModel.cells.asMap().entries.map((entry) {
+                  return CellBox(
+                    text: entry.value.text,
+                    color: entry.value.color,
+                    onTap: () {
+                      int row = entry.key ~/ 3;
+                      int col = entry.key % 3;
+                      setState(() {
+                        game.mark(BoardIndex(row: row, collumn: col));
+                      });
+                    },
+                  );
+                }).toList(),
               ),
             ),
             const SizedBox(
               height: 8.0,
             ),
             Text(
-              gameStatus(),
+              viewModel.gameStatus,
               style: Theme.of(context)
                   .textTheme
                   .headline4!
@@ -128,20 +113,39 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
 
-  String turnStatus() {
-    return "It's ${game.turn.player.name} turn";
-  }
+class CellBox extends StatelessWidget {
+  final String text;
+  final Color? color;
+  final VoidCallback? onTap;
 
-  Color turnStatusColor() {
-    return game.turn.player.name == "X" ? Colors.blue : Colors.pink;
-  }
+  const CellBox({
+    Key? key,
+    required this.text,
+    this.color,
+    this.onTap,
+  }) : super(key: key);
 
-  String gameStatus() {
-    return game.result.when(
-      inProgress: () => "🎮 Game in progres 🎮",
-      draw: () => "🤺 It's a draw 🤺",
-      over: (winner) => "🏆 Player $winner win🏆 ",
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(16.0),
+        ),
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+              color: color,
+              fontSize: 64.0,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -43,7 +43,7 @@ class TicTacToeGame {
   }
 
   void mark(BoardIndex index) {
-    if (result != GameResult.inProgress()) {
+    if (result.isFinished) {
       return;
     }
 

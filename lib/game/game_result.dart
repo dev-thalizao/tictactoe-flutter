@@ -5,6 +5,8 @@ class GameResult<Player> extends Equatable {
   final bool isDraw;
   final Player? winner;
 
+  bool get isFinished => isDraw || winner != null;
+
   @override
   List<Object?> get props => [inProgress, isDraw, winner];
 
