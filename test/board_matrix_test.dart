@@ -14,7 +14,7 @@ void main() {
           value: true,
         );
 
-        expect(board.cells, [
+        expect(board.matrix, [
           [BoardCell.empty(), BoardCell.empty(), BoardCell.empty()],
           [BoardCell.empty(), BoardCell.filled(true), BoardCell.empty()],
           [BoardCell.empty(), BoardCell.empty(), BoardCell.empty()],
@@ -42,33 +42,11 @@ void main() {
           value: false,
         );
 
-        expect(board.cells, [
+        expect(board.matrix, [
           [BoardCell.filled(true), BoardCell.empty(), BoardCell.empty()],
           [BoardCell.empty(), BoardCell.filled(false), BoardCell.empty()],
           [BoardCell.empty(), BoardCell.empty(), BoardCell.empty()],
         ]);
-      },
-    );
-
-    test(
-      'Should return cell for a index',
-      () {
-        final board = BoardMatrix<bool>.nineBox();
-
-        expect(
-          board.cellFor(index: BoardIndex(row: 1, collumn: 1)),
-          BoardCell.empty(),
-        );
-
-        board.fill(
-          index: BoardIndex(row: 1, collumn: 1),
-          value: false,
-        );
-
-        expect(
-          board.cellFor(index: BoardIndex(row: 1, collumn: 1)),
-          BoardCell.filled(false),
-        );
       },
     );
 

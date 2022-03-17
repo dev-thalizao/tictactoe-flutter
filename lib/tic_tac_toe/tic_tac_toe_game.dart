@@ -43,6 +43,10 @@ class TicTacToeGame {
   }
 
   void mark(BoardIndex index) {
+    if (result != GameResult.inProgress()) {
+      return;
+    }
+
     turn.player.select(index);
 
     if (victoryMatcher(turn.player.name, board)) {

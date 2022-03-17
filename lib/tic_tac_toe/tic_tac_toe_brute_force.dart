@@ -1,13 +1,11 @@
-import '../board/board.dart';
 import 'tic_tac_toe.dart';
-
 
 class TicTacToeBruteForce {
   TicTacToeBruteForce._();
 
   static TicTacToeMatcher<String> matcher() {
     return (player, board) {
-      final cells = board.cells.map(
+      final cells = board.matrix.map(
         (cells) {
           return cells
               .map((cell) => cell.isNotEmpty ? cell.value! : "")

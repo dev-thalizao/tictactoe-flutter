@@ -147,12 +147,46 @@ void main() {
           ]);
         },
       );
+
+      test(
+        "Should not allow any change after the game has finished",
+        () {
+          final game = TicTacToeGame.start(player1: "X", player2: "O");
+
+          /**
+           * O2 | O4 | X5
+           * 00 | X3 | 00
+           * X1 | 00 | 00
+           */
+
+          game
+            ..mark(BoardIndex(row: 2, collumn: 0))
+            ..mark(BoardIndex(row: 0, collumn: 0))
+            ..mark(BoardIndex(row: 1, collumn: 1))
+            ..mark(BoardIndex(row: 0, collumn: 1))
+            ..mark(BoardIndex(row: 0, collumn: 2));
+
+          expect(game.result, GameResult.over(game.p1.name));
+          expect(game.gameView, [
+            ["O", "O", "X"],
+            ["", "X", ""],
+            ["X", "", ""],
+          ]);
+
+          game.mark(BoardIndex(row: 2, collumn: 2));
+          expect(game.gameView, [
+            ["O", "O", "X"],
+            ["", "X", ""],
+            ["X", "", ""],
+          ]);
+        },
+      );
     },
   );
 }
 
 extension GameView on TicTacToeGame {
-  List<List<String>> get gameView => board.cells.map(
+  List<List<String>> get gameView => board.matrix.map(
         (cells) {
           return cells
               .map((cell) => cell.isNotEmpty ? cell.value! : "")

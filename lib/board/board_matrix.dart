@@ -1,11 +1,11 @@
 import 'board.dart';
 
 class BoardMatrix<T> {
-  final List<List<BoardCell<T>>> _cells;
+  final List<List<BoardCell<T>>> _matrix;
 
-  List<List<BoardCell<T>>> get cells => _cells;
+  List<List<BoardCell<T>>> get matrix => _matrix;
 
-  BoardMatrix._(this._cells);
+  BoardMatrix._(this._matrix);
 
   factory BoardMatrix.nineBox() {
     return BoardMatrix._(
@@ -20,17 +20,13 @@ class BoardMatrix<T> {
   }
 
   bool hasFullyFilled() {
-    return cells.expand((cells) => cells).every((cell) => cell.isNotEmpty);
-  }
-
-  BoardCell<T> cellFor({required BoardIndex index}) {
-    return _cells[index.row][index.collumn];
+    return matrix.expand((cells) => cells).every((cell) => cell.isNotEmpty);
   }
 
   void fill({required BoardIndex index, required T value}) {
-    final currentValue = _cells[index.row][index.collumn];
+    final currentValue = _matrix[index.row][index.collumn];
     if (currentValue.isEmpty) {
-      _cells[index.row][index.collumn] = BoardCell.filled(value);
+      _matrix[index.row][index.collumn] = BoardCell.filled(value);
     }
   }
 }

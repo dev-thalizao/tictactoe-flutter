@@ -37,4 +37,18 @@ class GameResult<Player> extends Equatable {
       winner: null,
     );
   }
+
+  T when<T>({
+    required T Function() inProgress,
+    required T Function() draw,
+    required T Function(Player winner) over,
+  }) {
+    if (winner != null) {
+      return over(winner!);
+    } else if (isDraw) {
+      return draw();
+    } else {
+      return inProgress();
+    }
+  }
 }
