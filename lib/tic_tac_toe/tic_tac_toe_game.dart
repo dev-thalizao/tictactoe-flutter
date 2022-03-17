@@ -20,7 +20,10 @@ class TicTacToeGame {
     required this.victoryMatcher,
   });
 
-  factory TicTacToeGame.start({required String player1, required String player2}) {
+  factory TicTacToeGame.start({
+    required String player1,
+    required String player2,
+  }) {
     final board = BoardMatrix<String>.nineBox();
 
     final game = TicTacToeGame._(
