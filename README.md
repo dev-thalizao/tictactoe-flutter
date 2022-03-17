@@ -1,16 +1,5 @@
-# tic_tac_toe_app
+# TicTacToe App
 
-A new Flutter project.
+A simple tic tac toe using tdd approach.
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+https://user-images.githubusercontent.com/6041775/158874176-49383625-1b54-4d6e-aff9-362f3bcba225.mov
