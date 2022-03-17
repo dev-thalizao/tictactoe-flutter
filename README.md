@@ -1,3 +1,5 @@
+[![CI](https://github.com/dev-thalizao/tictactoe-flutter/actions/workflows/ci.yml/badge.svg)](https://github.com/dev-thalizao/tictactoe-flutter/actions/workflows/ci.yml)
+
 # TicTacToe App
 
 A simple tic tac toe using tdd approach.
